@@ -3,6 +3,7 @@ package de.davidgollasch.emiexercise1;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class FibonacciActivity extends AppCompatActivity {
 
     private void InitializeActivity() {
         tvOutput = (TextView) findViewById(textViewFibonacci);
+        tvOutput.setMovementMethod(new ScrollingMovementMethod());
         btnFire = (Button) findViewById(buttonFire);
 
         btnFire.setOnClickListener(new View.OnClickListener() {
@@ -45,9 +47,19 @@ public class FibonacciActivity extends AppCompatActivity {
      * This method has to be filled...
      */
     private void CalculateFibonacciRow() {
-        String output = "";
+        // String startet mit 0. und 1. Fibonacci-Zahl
+        String output = "0\n1";
+        int n = 100;
 
-        /* TODO: IMPLEMENT THIS */
+        long fibA = 0;
+        long fibB = 1;
+        for (int i = 2; i <= n; i++) {
+            long tmpA = fibB;
+            long tmpB = fibA + fibB;
+            fibA = tmpA;
+            fibB = tmpB;
+            output += ("\n" + tmpB);
+        }
 
         tvOutput.setText(output);
     }

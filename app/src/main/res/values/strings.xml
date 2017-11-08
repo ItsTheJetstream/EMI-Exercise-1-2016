@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">EMI Exercise 1</string>
     <string name="title_activity_fibonacci_recursive">FibonacciRecursiveActivity</string>
+    <string name="digitsum_title">Eingabe einer Zahl von der die Quersumme berechnet werden soll:</string>
 </resources>

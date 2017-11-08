@@ -51,9 +51,12 @@ public class FibonacciRecursiveActivity extends AppCompatActivity {
      * @return The Fibonacci number of position n
      */
     private int Fibonacci(int n) {
-
-        /* TODO: IMPLEMENT THIS */
-
-        return 0; // TODO: remove this statement
+        if (n <= 0) {
+            return 0;
+        } else if (n == 1) {
+            return 1;
+        } else {
+            return Fibonacci(n-1) + Fibonacci(n-2);
+        }
     }
 }

@@ -29,14 +29,17 @@ public class DigitSumActivity extends AppCompatActivity {
      * Construct the Interactive Structure
      */
     private void InitializeActivity() {
+        tvOutput = (TextView) findViewById(R.id.digitSumOutput);
+        btnFire = (Button) findViewById(R.id.digitSumFire);
+        etNumber = (EditText) findViewById(R.id.digitSumInput);
 
-        /*
-         *
-         *  TODO: IMPLEMENT THIS
-         *  NUMBER 2: LINK VIEWS
-         *
-         *
-         */
+        btnFire.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                CalculateDigitSum();
+            }
+        });
 
     }
 
@@ -44,6 +47,24 @@ public class DigitSumActivity extends AppCompatActivity {
      * Trigger the Digit Sum Calculation
      */
     private void CalculateDigitSum() {
+        if (etNumber.getText().equals("")) {
+            tvOutput.setText("Please enter a number first!");
+        } else {
+            int n = Integer.parseInt(etNumber.getText().toString());
+            int q = 0;
+
+            while (n > 0) {
+                q += n % 10;
+                n = n/10;
+            }
+
+            tvOutput.setText(q + "");
+        }
+
+
+
+
+
         /*
          *
          *  TODO: IMPLEMENT THIS
