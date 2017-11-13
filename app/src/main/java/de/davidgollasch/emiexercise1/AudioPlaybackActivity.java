@@ -74,6 +74,7 @@ public class AudioPlaybackActivity extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 sEasternEmotion.setChecked(false);
+                mpEasternEmotion.release();
             }
         });
 
@@ -81,6 +82,7 @@ public class AudioPlaybackActivity extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 sReggaeFeeling.setChecked(false);
+                mpReggaeFeeling.release();
             }
         });
 
@@ -109,98 +111,143 @@ public class AudioPlaybackActivity extends AppCompatActivity {
      */
     private void ConfigureSoundEffects(int sessionID) {
         // Disable all prior FX
-        if(bassBoost != null) {
-            bassBoost.setEnabled(false);
-        }
-        if(virtualizer != null) {
-            virtualizer.setEnabled(false);
-        }
+
+
 
         // BASS BOOST
-        bassBoost = new BassBoost(0, sessionID);
-        if(bassBoost.getStrengthSupported()) {
-            bassBoost.setStrength((short) 1000);
-        }
-        bassBoost.setEnabled(true);
-        tbtnBassBoost.setChecked(true);
+
 
         // VIRTUALIZER
-        virtualizer = new Virtualizer(0, sessionID);
-        virtualizer.setStrength((short) 1000);
-        virtualizer.setEnabled(true);
-        tbtnVirtualizer.setChecked(true);
+
     }
 
     /**
      * Handle toggling of Eastern Emotion switch
      */
     private void EasternEmotionToggled() {
+        if (mpReggaeFeeling.isPlaying()) {
+            sReggaeFeeling.setChecked(false);
+            if (bassBoost != null) {
+                bassBoost.setEnabled(false);
+                tbtnBassBoost.setChecked(false);
+            } else if (virtualizer != null) {
+                virtualizer.setEnabled(false);
+                tbtnVirtualizer.setChecked(false);
+            }
+            PauseReggaeFeeling();
+        }
 
-        /* TODO: IMPLEMENT THIS */
+        if (mpEasternEmotion == null) {
+            mpEasternEmotion = MediaPlayer.create(this, R.raw.eastern_emotion_terrasound_de);
+        }
 
+        if (mpEasternEmotion.isPlaying()) {
+            PauseEasternEmotion();
+        } else {
+            PlaybackEasternEmotion();
+        }
     }
 
     /**
      * Starts playback of first audio
      */
     private void PlaybackEasternEmotion() {
-
-        /* TODO: IMPLEMENT THIS */
-
+        mpEasternEmotion.start();
     }
 
     /**
      * Halts playback of first audio
      */
     private void PauseEasternEmotion() {
-
-        /* TODO: IMPLEMENT THIS*/
-
+        mpEasternEmotion.pause();
     }
 
     /**
      * Handle toggling of Reggae Feeling switch
      */
     private void ReggaeFeelingToggled() {
+        if (mpEasternEmotion.isPlaying()) {
+            sEasternEmotion.setChecked(false);
+            if (bassBoost != null) {
+                bassBoost.setEnabled(false);
+                tbtnBassBoost.setChecked(false);
+            } else if (virtualizer != null) {
+                virtualizer.setEnabled(false);
+                tbtnVirtualizer.setChecked(false);
+            }
+            PauseEasternEmotion();
+        }
 
-        /* TODO: IMPLEMENT THIS */
+        if (mpReggaeFeeling == null) {
+            mpReggaeFeeling = MediaPlayer.create(this, R.raw.reggae_feeling_terrasound_de);
+        }
 
+        if (mpReggaeFeeling.isPlaying()) {
+            PauseReggaeFeeling();
+        } else {
+            PlaybackReggaeFeeling();
+        }
     }
 
     /**
      * Starts playback of second audio
      */
     private void PlaybackReggaeFeeling() {
-
-        /* TODO: IMPLEMENT THIS */
-
+        mpReggaeFeeling.start();
     }
 
     /**
      * Halts playback of second audio
      */
     private void PauseReggaeFeeling() {
-
-        /* TODO: IMPLEMENT THIS */
-
+        mpReggaeFeeling.pause();
     }
 
     /**
      * Handle Bass Boost Switch
      */
     private void BassBoostClicked() {
+        if (bassBoost == null) {
+            if (mpReggaeFeeling.isPlaying()) {
+                bassBoost = new BassBoost(0, mpReggaeFeeling.getAudioSessionId());
+            } else if (mpEasternEmotion.isPlaying()) {
+                bassBoost = new BassBoost(0, mpEasternEmotion.getAudioSessionId());
+            }
 
-        /* TODO: IMPLEMENT THIS */
-
+            if (bassBoost != null) {
+                if(bassBoost.getStrengthSupported()) {
+                    bassBoost.setStrength((short) 3000);
+                }
+                bassBoost.setEnabled(true);
+                tbtnBassBoost.setChecked(true);
+            }
+        } else {
+            bassBoost.setEnabled(false);
+            bassBoost = null;
+            tbtnBassBoost.setChecked(false);
+        }
     }
 
     /**
      * Handle Virtualizer Switch
      */
     private void VirtualizerClicked() {
+        if (virtualizer == null) {
+            if (mpEasternEmotion.isPlaying()) {
+                virtualizer = new Virtualizer(0, mpEasternEmotion.getAudioSessionId());
+            } else if (mpReggaeFeeling.isPlaying()) {
+                virtualizer = new Virtualizer(0, mpReggaeFeeling.getAudioSessionId());
+            }
 
-        /* TODO: IMPLEMENT THIS */
-
+            if (virtualizer != null) {
+                virtualizer.setStrength((short) 1000);
+                virtualizer.setEnabled(true);
+                tbtnVirtualizer.setChecked(true);
+            }
+        } else {
+            virtualizer.setEnabled(false);
+            virtualizer = null;
+            tbtnVirtualizer.setChecked(false);
+        }
     }
-
 }
