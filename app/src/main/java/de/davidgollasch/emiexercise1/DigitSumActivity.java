@@ -40,14 +40,13 @@ public class DigitSumActivity extends AppCompatActivity {
                 CalculateDigitSum();
             }
         });
-
     }
 
     /**
      * Trigger the Digit Sum Calculation
      */
     private void CalculateDigitSum() {
-        if (etNumber.getText().equals("")) {
+        if (etNumber.getText().toString().equals("")) {
             tvOutput.setText("Please enter a number first!");
         } else {
             int n = Integer.parseInt(etNumber.getText().toString());
@@ -60,34 +59,5 @@ public class DigitSumActivity extends AppCompatActivity {
 
             tvOutput.setText(q + "");
         }
-
-
-
-
-
-        /*
-         *
-         *  TODO: IMPLEMENT THIS
-         *  NUMBER 3: CALCULATE AND PRINT DIGIT SUM
-         *
-         *
-         */
-
-        /*
-         * a) Get entered number
-         */
-
-
-        /*
-         * b) Calculate digit sum
-         *    (Hint: This can be done recursively using an additional function/method
-         *    private int getDigitSum(int n))
-         */
-
-        /*
-         * c) Print result
-         */
-
-        }
-
+    }
 }
